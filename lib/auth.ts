@@ -66,7 +66,7 @@ class Auth {
     const users = db.collection('users');
     
     const user = await users.findOne({ _id: new ObjectId(userId) });
-    console.log(user,'userId',userId) 
+
     if (!user) {
       throw new Error('用户不存在');
     }
