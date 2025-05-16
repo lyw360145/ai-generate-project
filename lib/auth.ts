@@ -39,7 +39,6 @@ class Auth {
   static async authenticate(username: string, password: string): Promise<string> {
     const db = await this.connect();
     const users = db.collection('users');
-
     const user = await users.findOne({ username });
     if (!user) {
       throw new Error('用户不存在');
@@ -49,15 +48,8 @@ class Auth {
     if (!isValid) {
       throw new Error('密码错误');
     }
-
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET || 'secret', { expiresIn: '1h' });
-    const cookieOptions = {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 3600000, // 1 hour
-      sameSite: 'strict',
-      path: '/',
-    };
+
     
     return token;
   }
