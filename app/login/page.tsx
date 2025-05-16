@@ -2,7 +2,7 @@
 
 'use client'
 import { useState } from 'react';
-import AuthClient from '@/lib/auth-client';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
@@ -14,9 +14,8 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const token = await AuthClient.login(username, password);
-      localStorage.setItem('token', token);
-      router.push('/');
+     await axios.post('/api/login', { username, password}); 
+     router.push('/');
     } catch (err) {
       setError('登录失败，请检查用户名和密码');
     }
